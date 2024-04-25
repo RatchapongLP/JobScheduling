@@ -9,7 +9,7 @@ public class TimerUtils {
 
     private TimerUtils() {}
 
-    public static JobDetail buildJobDetail(final Class<? extends Job> jobClass, final TimerInfo timerInfo) {
+    public static <T extends Job> JobDetail buildJobDetail(final Class<T> jobClass, final TimerInfo timerInfo) {
 
         final JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put(jobClass.getSimpleName(), timerInfo);
@@ -20,7 +20,7 @@ public class TimerUtils {
                 .build();
     }
 
-    public static Trigger buildTrigger(final Class<? extends Job> jobClass, final TimerInfo timerInfo) {
+    public static <T extends Job> Trigger buildTrigger(final Class<T> jobClass, final TimerInfo timerInfo) {
 
         SimpleScheduleBuilder builder = SimpleScheduleBuilder.simpleSchedule()
                 .withIntervalInMilliseconds(timerInfo.getRepeatIntervalMs());
@@ -37,6 +37,6 @@ public class TimerUtils {
                 .withIdentity(jobClass.getSimpleName()) // Sets the 'TriggerKey' field of the builder
                 .withSchedule(builder)
                 .startAt(new Date(System.currentTimeMillis() + timerInfo.getInitialOffsetMs()))
-                .build();
+                .build(); // Calls build() on the ScheduleBuilder field internally
     }
 }
