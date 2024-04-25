@@ -38,7 +38,7 @@ public class SchedulerService {
         }
     }
 
-    public List<TimerInfo> getAllRunningTimers() {
+    public List<TimerInfo> getAllJobTimerInfo() {
 
         try {
             return scheduler.getJobKeys(GroupMatcher.anyGroup())
@@ -58,6 +58,45 @@ public class SchedulerService {
         }
     }
 
+    public TimerInfo getJobTimerInfo(final String jobClass)  {
+
+        try {
+            JobDetail jobDetail = scheduler.getJobDetail(new JobKey(jobClass));
+            if (jobDetail == null) {
+                LOGGER.error("Unable to find such job class in the scheduler: '{}'", jobClass);
+                return null;
+            }
+            return (TimerInfo) jobDetail.getJobDataMap().get(jobClass);
+        } catch (SchedulerException e) {
+            LOGGER.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
+    public void updateJobTimerInfo(final String jobClass, final TimerInfo timerInfo) {
+
+        try {
+            JobDetail jobDetail = scheduler.getJobDetail(new JobKey(jobClass));
+            if (jobDetail == null) {
+                LOGGER.error("Unable to find such job class in the scheduler: '{}'", jobClass);
+                return;
+            }
+            jobDetail.getJobDataMap().put(jobClass, timerInfo);
+            scheduler.addJob(jobDetail, true, true);
+        } catch (SchedulerException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+    }
+
+    public boolean deleteJob(final String jobClass) {
+
+        try {
+            return scheduler.deleteJob(new JobKey(jobClass));
+        } catch (SchedulerException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return false;
+    }
     @PostConstruct
     public void init() {
         try {
