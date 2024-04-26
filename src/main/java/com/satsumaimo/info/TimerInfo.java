@@ -3,6 +3,7 @@ package com.satsumaimo.info;
 public class TimerInfo {
 
     private int totalFireCount;
+    private int remainingFireCount;
     private boolean runForever;
     private long repeatIntervalMs;
     private long initialOffsetMs;
@@ -14,6 +15,14 @@ public class TimerInfo {
 
     public void setTotalFireCount(int totalFireCount) {
         this.totalFireCount = totalFireCount;
+    }
+
+    public int getRemainingFireCount() {
+        return remainingFireCount;
+    }
+
+    public void setRemainingFireCount(int remainingFireCount) {
+        this.remainingFireCount = remainingFireCount;
     }
 
     public boolean isRunForever() {
