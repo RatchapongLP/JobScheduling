@@ -6,6 +6,8 @@ import com.satsumaimo.timerservice.SchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GardenService {
 
@@ -25,5 +27,21 @@ public class GardenService {
         timerInfo.setCallbackData("Dummy callback data");
 
         scheduler.schedule(GreetingJob.class, timerInfo);
+    }
+
+    public List<TimerInfo> getAllJobTimerInfo() {
+        return scheduler.getAllJobTimerInfo();
+    }
+
+    public TimerInfo getJobTimerInfo(String jobClass) {
+        return scheduler.getJobTimerInfo(jobClass);
+    }
+
+    public void updateJobTimerInfo(String jobClass, TimerInfo timerInfo) {
+        scheduler.updateJobTimerInfo(jobClass, timerInfo);
+    }
+
+    public boolean deleteJob(String jobClass) {
+        return scheduler.deleteJob(jobClass);
     }
 }
