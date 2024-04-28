@@ -1,4 +1,4 @@
-package com.satsumaimo.Garden;
+package com.satsumaimo.garden;
 
 import com.satsumaimo.info.TimerInfo;
 import org.springframework.beans.factory.annotation.Autowired;
