@@ -18,6 +18,7 @@ public class TimerUtils {
         return JobBuilder.newJob(jobClass)
                 .withIdentity(jobClass.getSimpleName()) // Binds the job class to a key field of the builder
                 .setJobData(jobDataMap) // Assigns job data map to the builder's field
+//                .usingJobData(jobDataMap) // AddAll the passed map to the existing map
                 .build();
     }
 
